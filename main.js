@@ -5,18 +5,32 @@ function getAffirmation() {
       .then(data => {
         const affirmations = data.affirmations;
         const randomIndex = Math.floor(Math.random() * affirmations.length);
-        document.getElementById('affirmation').innerText = affirmations[randomIndex];
+        
+        const affirmationElement = document.getElementById('affirmation');
+        
+        // Remove fade-in class if already present
+        affirmationElement.classList.remove('fade-in');
+        
+        // Set timeout to allow text to update before fading in
+        setTimeout(() => {
+          affirmationElement.innerText = affirmations[randomIndex];  // Update text
+          
+          // Re-add the fade-in class to trigger the animation
+          affirmationElement.classList.add('fade-in');
+        }, 200); // Short delay before changing the text
       })
       .catch(error => console.error('Error loading affirmations:', error));  // Error handling
   }
   
   // Function to share the affirmation via Web Share API
   function shareAffirmation() {
+    // Get the text of the current affirmation
     const affirmationText = document.getElementById('affirmation').innerText;
+    
     if (navigator.share) {
       navigator.share({
         title: 'Daily Affirmation',
-        text: affirmationText,
+        text: affirmationText,  // Share the current affirmation text
         url: window.location.href
       })
       .catch(error => console.error('Error sharing:', error));
@@ -27,7 +41,7 @@ function getAffirmation() {
   
   // Event listener for "Get New Affirmation" button
   document.getElementById('new-affirmation').addEventListener('click', getAffirmation);
-  // Event listener for "share" button
+  
+  // Event listener for "Share Affirmation" button
   document.getElementById('share').addEventListener('click', shareAffirmation);
-
   
