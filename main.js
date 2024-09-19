@@ -27,4 +27,7 @@ function getAffirmation() {
   
   // Event listener for "Get New Affirmation" button
   document.getElementById('new-affirmation').addEventListener('click', getAffirmation);
+  // Event listener for "share" button
+  document.getElementById('share').addEventListener('click', shareAffirmation);
+
   
