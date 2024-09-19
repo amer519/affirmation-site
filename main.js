@@ -1,15 +1,13 @@
-const affirmations = [
-    "You are capable of amazing things.",
-    "Every day is a second chance.",
-    "Believe in yourself and all that you are.",
-    "You are stronger than you think.",
-    "You are worthy of all the good things in life."
-  ];
-  
-  // Function to generate a new affirmation
-  function getAffirmation() {
-    const randomIndex = Math.floor(Math.random() * affirmations.length);
-    document.getElementById('affirmation').innerText = affirmations[randomIndex];
+// Function to generate a new affirmation from affirmations.json
+function getAffirmation() {
+    fetch('affirmations.json')  // Make sure the path is correct
+      .then(response => response.json())  // Parse the JSON file
+      .then(data => {
+        const affirmations = data.affirmations;
+        const randomIndex = Math.floor(Math.random() * affirmations.length);
+        document.getElementById('affirmation').innerText = affirmations[randomIndex];
+      })
+      .catch(error => console.error('Error loading affirmations:', error));  // Error handling
   }
   
   // Function to share the affirmation via Web Share API
@@ -21,9 +19,12 @@ const affirmations = [
         text: affirmationText,
         url: window.location.href
       })
-      .catch(error => console.error('Error sharing', error));
+      .catch(error => console.error('Error sharing:', error));
     } else {
       alert('Sharing is not supported on this browser.');
     }
   }
+  
+  // Event listener for "Get New Affirmation" button
+  document.getElementById('new-affirmation').addEventListener('click', getAffirmation);
   
